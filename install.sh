@@ -14,7 +14,7 @@ apt-get -y install gcc-4.7 g++-4.7
 [ -x /usr/bin/gcc-4.6 ] && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7
 [ -x /usr/bin/gcc-4.6 ] && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6
 
-apt-get -y install make cmake automake autoconf bison flex libevent-dev libboost1.48-dev libssl-dev mono-devel mono-gmcs openjdk-7-jdk pkg-config qt4-dev-tools zlibc zlib1g zlib1g-dev
+apt-get -y install make cmake automake autoconf bison flex libevent-dev libboost1.55-all-dev libssl-dev mono-devel mono-gmcs openjdk-7-jdk pkg-config qt4-dev-tools zlibc zlib1g zlib1g-dev
 
 # Ant must come after openjdk-7-jdk, otherwise it installs java 6
 apt-get -y install ant
@@ -38,6 +38,10 @@ echo "==== gtest ===="
 cd gtest-1.7.0
 rm -f CMakeCache.txt
 #cmake .
+
+#Added this to prevent autoconf version mismatch
+autoreconf -i
+
 autoconf
 automake
 ./configure
@@ -48,7 +52,7 @@ cp libgtest.a ../lib || cp lib/.libs/libgtest.a ../lib
 cd ..
 
 echo "==== thrift ===="
-cd thrift-0.9.1
+cd thrift-0.9.3
 cp -f /usr/share/aclocal/pkg.m4 aclocal
 autoconf
 touch NEWS README AUTHORS ChangeLog
